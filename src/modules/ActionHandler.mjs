@@ -603,6 +603,9 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
 
     async #buildUtilityCharacter() {
       const characterTypes = {}
+      const deathStatus = this.actor?.system?.attributes?.death?.status
+      const isStable =  this.actor?.statuses?.has('stable')
+
 
       for (const [type, config] of Object.entries(CONFIG.BlackFlag.rest.types)) {
         characterTypes[type + "Rest"] = {
@@ -625,6 +628,15 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
       name: game.i18n.localize("Remove Luck"),
       tooltip: game.i18n.localize("BF.Luck.Action.Remove"),
       system: {actionId: "removeLuck"}
+    }
+
+    if (deathStatus === 'dying' && !isStable) {
+      characterTypes["deathSave"] = {
+        id: "deathSave",
+        name: game.i18n.localize("Death Save"),
+        tooltip: game.i18n.localize("Roll Death Saving Throw"),
+        system: {actionId: "deathSave"}
+      }
     }
 
       return {'character': characterTypes};

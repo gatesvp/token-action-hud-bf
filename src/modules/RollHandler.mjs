@@ -120,6 +120,9 @@ Hooks.once('tokenActionHudCoreApiReady', async (coreModule) => {
         case 'removeLuck':
           await actor.update({ "system.attributes.luck.value": actor.system.attributes.luck.value - 1 });
           break;
+        case 'deathSave':
+          await actor.rollDeathSave();
+          break;
         case 'toggleItemPiles':
         case 'makeItemPile':
         case 'revertItemPile':
